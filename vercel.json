@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "env": {
-    "VITE_BASEURL": "https://bloodbank-backend-yt9o.onrender.com"
+    "VITE_BASEURL": "https://bloodbank-backend-yt9o.onrender.com/api"
   },
   "rewrites": [
     {
