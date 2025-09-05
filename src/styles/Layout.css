@@ -1,43 +1,268 @@
-.sidebar{
+/* ===== RESPONSIVE LAYOUT SYSTEM ===== */
+
+/* Mobile First Approach */
+.sidebar {
     height: 100vh !important;
     border-radius: 0px 10px 10px 0px;
     background-color: rgb(134, 15, 15);
     box-shadow: 0 0 2px rgb(255, 0, 0);
     color: white;
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-.menu{
+.sidebar.open {
+    left: 0;
+}
+
+.menu {
     padding-top: 100px;
 }
 
-.menu-item{
-    padding-top:20px ;
+.menu-item {
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.menu-item a{
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item a {
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.menu-item i{
-    font-size: 1.2rem;
-    margin: 0 15px;
+.menu-item i {
+    font-size: 1.1rem;
+    margin-right: 15px;
     color: white;
+    width: 20px;
+    text-align: center;
 }
 
-.active{
+.active {
     background-color: white;
-    padding: 10px;
-    margin-top: 25px;
+    padding: 15px 20px;
     box-shadow: 0 0 7px rgb(255, 0, 0);
     border-radius: 0px 10px 10px 0px;
 }
 
-.active a{
+.active a {
     color: rgb(134, 15, 15);
 }
 
-.active i{
+.active i {
     color: rgb(134, 15, 15);
+}
+
+/* Mobile Navigation Toggle */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    background: rgb(134, 15, 15);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.mobile-menu-toggle:hover {
+    background: rgb(100, 10, 10);
+    transform: scale(1.05);
+}
+
+.mobile-menu-toggle:active {
+    transform: scale(0.95);
+    background: rgb(80, 8, 8);
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* Responsive Header */
+.navbar {
+    background: linear-gradient(135deg, #d32f2f 0%, #ff9800 100%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white !important;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffeb3b !important;
+}
+
+/* Responsive Container */
+.responsive-container {
+    padding-left: 0;
+    transition: padding-left 0.3s ease;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .sidebar {
+        position: relative;
+        left: 0;
+        width: auto;
+        height: 100vh;
+    }
+    
+    .mobile-menu-toggle {
+        display: none;
+    }
+    
+    .overlay {
+        display: none !important;
+    }
+    
+    .responsive-container {
+        padding-left: 0;
+    }
+    
+    .menu-item {
+        padding: 20px;
+    }
+    
+    .menu-item a {
+        font-size: 1.1rem;
+    }
+    
+    .menu-item i {
+        font-size: 1.2rem;
+        margin-right: 15px;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 992px) {
+    .menu-item a {
+        font-size: 1.2rem;
+    }
+    
+    .menu-item i {
+        font-size: 1.3rem;
+        margin-right: 20px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .navbar .container-fluid {
+        padding-left: 50px; /* Make space for mobile menu toggle */
+    }
+    
+    .navbar-nav {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .navbar-nav .nav-item {
+        margin: 0;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .responsive-container {
+        padding-left: 0;
+        margin-left: 0;
+    }
+    
+    .menu-item {
+        padding: 12px 20px;
+    }
+    
+    .menu-item a {
+        font-size: 0.95rem;
+    }
+    
+    .menu-item i {
+        font-size: 1rem;
+        margin-right: 12px;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 575px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.8rem;
+    }
+    
+    .menu-item {
+        padding: 10px 15px;
+    }
+    
+    .menu-item a {
+        font-size: 0.9rem;
+    }
+    
+    .menu-item i {
+        font-size: 0.9rem;
+        margin-right: 10px;
+    }
 }

@@ -4,9 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 import "../../../styles/Layout.css";
 import { useSelector } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
+  
+  const handleLinkClick = () => {
+    // Close sidebar on mobile when link is clicked
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
     <div>
       <div className="sidebar">
@@ -17,7 +25,7 @@ const Sidebar = () => {
                 className={`menu-item ${location.pathname === "/inventory" && "active"}`}
               >
                 <i className="fa-solid fa-cubes"></i>
-                <Link to="/inventory">Inventory</Link>
+                <Link to="/inventory" onClick={handleLinkClick}>Inventory</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -25,7 +33,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-hand-holding-medical"></i>
-                <Link to="/donors-list">Donors</Link>
+                <Link to="/donors-list" onClick={handleLinkClick}>Donors</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -33,7 +41,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-truck-medical"></i>
-                <Link to="/hospital">Hospitals</Link>
+                <Link to="/hospital" onClick={handleLinkClick}>Hospitals</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -41,7 +49,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-calendar-check"></i>
-                <Link to="/camps">Blood Camps</Link>
+                <Link to="/camps" onClick={handleLinkClick}>Blood Camps</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -49,7 +57,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-exclamation-triangle"></i>
-                <Link to="/emergency">Emergency Requests</Link>
+                <Link to="/emergency" onClick={handleLinkClick}>Emergency Requests</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -57,7 +65,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-hand-holding-heart"></i>
-                <Link to="/organisation-dashboard">Donation Requests</Link>
+                <Link to="/organisation-dashboard" onClick={handleLinkClick}>Donation Requests</Link>
               </div>
             </>
           )}
@@ -70,7 +78,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-hand-holding-medical"></i>
-                <Link to="/donor-list">Donor List</Link>
+                <Link to="/donor-list" onClick={handleLinkClick}>Donor List</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -78,7 +86,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-truck-medical"></i>
-                <Link to="/hospital-list">Hospital List</Link>
+                <Link to="/hospital-list" onClick={handleLinkClick}>Hospital List</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -86,7 +94,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-hospital"></i>
-                <Link to="/org-list">Organisation List</Link>
+                <Link to="/org-list" onClick={handleLinkClick}>Organisation List</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -94,7 +102,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-calendar-check"></i>
-                <Link to="/camp-approval">Camp Approval</Link>
+                <Link to="/camp-approval" onClick={handleLinkClick}>Camp Approval</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -102,7 +110,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-exclamation-triangle"></i>
-                <Link to="/emergency-management">Emergency Management</Link>
+                <Link to="/emergency-management" onClick={handleLinkClick}>Emergency Management</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -110,7 +118,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-history"></i>
-                <Link to="/camps-history">Camps History</Link>
+                <Link to="/camps-history" onClick={handleLinkClick}>Camps History</Link>
               </div>
             </>
           )}
@@ -123,7 +131,7 @@ const Sidebar = () => {
                 }`}
               >
                 <i className="fa-solid fa-building-ngo"></i>
-                <Link to="/organisations">Organisations</Link>
+                <Link to="/organisations" onClick={handleLinkClick}>Organisations</Link>
               </div>
             </>
           )}
@@ -136,7 +144,7 @@ const Sidebar = () => {
               }`}
             >
               <i className="fa-solid fa-book-medical"></i>
-              <Link to="/donation">Donations Log</Link>
+              <Link to="/donation" onClick={handleLinkClick}>Donations Log</Link>
             </div>
           )}
         </div>

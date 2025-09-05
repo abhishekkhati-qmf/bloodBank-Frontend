@@ -67,26 +67,27 @@ const HomePage = () => {
 
   // Donor view - show emergency requests
           if (user?.role === 'donor') {
-    return (
-      <Layout>
-        {error && <span>{alert(error)}</span>}
-        {loading ? (
-          <div className="d-flex justify-content-center align-items-center">
-            <Spinner size={80} />
-          </div>
-        ) : (
-          <div className="container mt-3">
-            <h4 className="mb-4">🚨 Emergency Blood Requests</h4>
+      return (
+    <Layout>
+      {error && <span>{alert(error)}</span>}
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+          <Spinner size={80} />
+        </div>
+      ) : (
+        <div className="container-fluid mt-3 p-responsive">
+            <h4 className="mb-4 text-responsive">🚨 Emergency Blood Requests</h4>
             {emergencyRequests.length === 0 ? (
-              <div className="alert alert-info">
+              <div className="alert alert-info text-center">
+                <i className="fas fa-info-circle fa-2x mb-3"></i>
                 <h5>No emergency requests at the moment</h5>
                 <p>Your blood group ({user?.bloodGroup}) is not currently needed for any emergency requests.</p>
               </div>
             ) : (
-              <div className="row">
+              <div className="row g-3">
                 {emergencyRequests.map((request) => (
-                  <div key={request._id} className="col-md-6 mb-4">
-                    <div className={`card ${request.urgency === 'critical' ? 'border-danger' : request.urgency === 'emergency' ? 'border-warning' : 'border-primary'}`}>
+                  <div key={request._id} className="col-12 col-md-6 col-lg-4">
+                    <div className={`card emergency-card ${request.urgency}`}>
                       <div className={`card-header ${request.urgency === 'critical' ? 'bg-danger text-white' : request.urgency === 'emergency' ? 'bg-warning text-dark' : 'bg-primary text-white'}`}>
                         <h5 className="mb-0">
                           {request.urgency === 'critical' ? '🔴 CRITICAL' : request.urgency === 'emergency' ? '🟡 EMERGENCY' : '🔵 HIGH PRIORITY'}
@@ -174,17 +175,18 @@ const HomePage = () => {
                 }} />
               </div>
             </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Blood Group</th>
-                  <th scope="col">InventoryType</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Donor/Hospital Email</th>
-                  <th scope="col">Time Date</th>
-                </tr>
-              </thead>
-              <tbody>
+            <div className="table-responsive">
+              <table className="table table-hover">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col" className="text-nowrap">Blood Group</th>
+                    <th scope="col" className="text-nowrap">InventoryType</th>
+                    <th scope="col" className="text-nowrap">Quantity</th>
+                    <th scope="col" className="text-nowrap">Donor/Hospital Email</th>
+                    <th scope="col" className="text-nowrap">Time Date</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {(window.stockSummaryRows || data)?.map((record) => (
                   <tr
                     className={
@@ -199,8 +201,9 @@ const HomePage = () => {
                     <td>{record.createdAt ? moment(record.createdAt).format("DD/MM/YYYY hh:mm A") : (record.lastUpdated ? moment(record.lastUpdated).format("DD/MM/YYYY hh:mm A") : '-')}</td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <Modal />

@@ -92,29 +92,44 @@ const AdminList = ({
   return (
     <Layout>
       {temp ? (
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
           <Spinner size={80} />
         </div>
       ) : (
-        <div className="container mt-3">
-          <h4 className="mb-3">{title}</h4>
-          <table className="table">
-            <thead>
-              <tr className="table-active">
-                {columns.map((column, index) => (
-                  <th key={index} scope="col">{column}</th>
-                ))}
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.map((record) => (
-                <tr key={record._id}>
-                  {renderRow(record, { handleDelete, handleBlockUnblock, renderBloodStock })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="container-fluid mt-3 p-responsive">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4 className="mb-0 text-responsive">{title}</h4>
+            <div className="d-flex gap-2">
+              <span className="badge bg-primary">{data?.length || 0} records</span>
+            </div>
+          </div>
+          
+          {data?.length === 0 ? (
+            <div className="alert alert-info text-center">
+              <i className="fas fa-info-circle me-2"></i>
+              No {title.toLowerCase()} found.
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover">
+                <thead className="table-dark">
+                  <tr>
+                    {columns.map((column, index) => (
+                      <th key={index} scope="col" className="text-nowrap">{column}</th>
+                    ))}
+                    <th scope="col" className="text-nowrap">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.map((record) => (
+                    <tr key={record._id}>
+                      {renderRow(record, { handleDelete, handleBlockUnblock, renderBloodStock })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       )}
     </Layout>

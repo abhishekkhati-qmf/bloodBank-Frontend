@@ -106,14 +106,30 @@ const OrganisationPage = () => {
   return (
     <Layout>
       {temp ? (
-        <div className="d-flex justify-content-center align-items-center"><Spinner size={80} /></div>
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+          <Spinner size={80} />
+        </div>
       ) : (
-        <div className="container mt-4">
+        <div className="container-fluid mt-3 p-responsive">
           {isHospital && (
             <div className="row g-3 mb-3">
-              <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Total Fulfilled Requests</div><div className="fs-4 fw-bold">{summary.totalFulfilled || 0}</div></div></div></div>
-              <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Avg Response Time</div><div className="fs-5 fw-bold">{formatMs(summary.avgResponseMs)}</div></div></div></div>
-              <div className="col-md-6 d-flex align-items-center justify-content-end">
+              <div className="col-6 col-md-3">
+                <div className="card h-100 stats-card">
+                  <div className="card-body text-center">
+                    <div className="text-muted small">Fulfilled Requests</div>
+                    <div className="stats-number">{summary.totalFulfilled || 0}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6 col-md-3">
+                <div className="card h-100 stats-card">
+                  <div className="card-body text-center">
+                    <div className="text-muted small">Avg Response Time</div>
+                    <div className="stats-number small">{formatMs(summary.avgResponseMs)}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
                 <input className="form-control w-50" placeholder="Search by name/address" value={search} onChange={(e)=>setSearch(e.target.value)} />
                 <button className="btn btn-outline-primary ms-2" onClick={async()=>{
                   try{
@@ -133,20 +149,21 @@ const OrganisationPage = () => {
               </div>
             </div>
           )}
-          <table className="table">
-            <thead>
-              <tr className="table-active">
-                <th scope="col">Organisation Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Contact</th>
-                {isDonor && <th scope="col">Available / In-demand</th>}
-                {isDonor && <th scope="col">Actions</th>}
-                {isHospital && <th scope="col">Pending Requests</th>}
-                <th scope="col">Website</th>
-                {isHospital && <th scope="col">Actions</th>}
-              </tr>
-            </thead>
-            <tbody>
+          <div className="table-responsive">
+            <table className="table table-hover">
+              <thead className="table-dark">
+                <tr>
+                  <th scope="col" className="text-nowrap">Organisation Name</th>
+                  <th scope="col" className="text-nowrap">Address</th>
+                  <th scope="col" className="text-nowrap">Contact</th>
+                  {isDonor && <th scope="col" className="text-nowrap">Available / In-demand</th>}
+                  {isDonor && <th scope="col" className="text-nowrap">Actions</th>}
+                  {isHospital && <th scope="col" className="text-nowrap">Pending Requests</th>}
+                  <th scope="col" className="text-nowrap">Website</th>
+                  {isHospital && <th scope="col" className="text-nowrap">Actions</th>}
+                </tr>
+              </thead>
+              <tbody>
               {(search ? (browseOrgs.allOrganisations || data) : data)?.filter(o => {
                 const q = (search||'').toLowerCase();
                 return !q || [o.organisationName,o.address,o.email].some(v=>String(v||'').toLowerCase().includes(q));
@@ -174,43 +191,50 @@ const OrganisationPage = () => {
                   <td>{o.website ? (<a href={o.website.startsWith('http') ? o.website : `https://${o.website}`} target="_blank" rel="noreferrer">Website</a>) : ('-')}</td>
                   {isHospital && (
                     <td>
-                      <button className="btn btn-sm btn-primary me-2" onClick={()=>setBrowse({ ...browse, open:true, list:[o], search:'REQUEST' })}>Request</button>
-                      <button className="btn btn-sm btn-outline-info me-2" onClick={()=>setBrowse({ ...browse, open:true, list:[o], search:'HISTORY' })}>View History</button>
-                      <a className="btn btn-sm btn-outline-secondary" href={`mailto:${o.email}`}>Contact</a>
+                      <div className="d-flex flex-column flex-sm-row gap-1">
+                        <button className="btn btn-sm btn-primary" onClick={()=>setBrowse({ ...browse, open:true, list:[o], search:'REQUEST' })}>Request</button>
+                        <button className="btn btn-sm btn-outline-info" onClick={()=>setBrowse({ ...browse, open:true, list:[o], search:'HISTORY' })}>History</button>
+                        <a className="btn btn-sm btn-outline-secondary" href={`mailto:${o.email}`}>Contact</a>
+                      </div>
                     </td>
                   )}
                 </tr>
               );})}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
 
 
           {/* Organisation Request Management */}
           {user?.role === 'organisation' && (
             <div className="mt-4">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5 className="m-0">Incoming Blood Requests</h5>
-                <div>
-                  <button className="btn btn-outline-primary btn-sm me-2" onClick={() => setShowAllRequests(!showAllRequests)}>
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
+                <h5 className="m-0 text-responsive">Incoming Blood Requests</h5>
+                <div className="d-flex gap-2">
+                  <button className="btn btn-outline-primary btn-sm" onClick={() => setShowAllRequests(!showAllRequests)}>
                     {showAllRequests ? 'Show Recent Only' : 'View All Requests'}
                   </button>
                 </div>
               </div>
               {requests.length === 0 ? (
-                <div className="alert alert-info">No pending requests</div>
+                <div className="alert alert-info text-center">
+                  <i className="fas fa-info-circle me-2"></i>
+                  No pending requests
+                </div>
               ) : (
-                <table className="table">
-                  <thead>
-                    <tr className="table-active">
-                      <th>Hospital</th>
-                      <th>Blood Group</th>
-                      <th>Quantity (ml)</th>
-                      <th>Request Date</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <div className="table-responsive">
+                  <table className="table table-hover">
+                    <thead className="table-dark">
+                      <tr>
+                        <th className="text-nowrap">Hospital</th>
+                        <th className="text-nowrap">Blood Group</th>
+                        <th className="text-nowrap">Quantity (ml)</th>
+                        <th className="text-nowrap">Request Date</th>
+                        <th className="text-nowrap">Status</th>
+                        <th className="text-nowrap">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                     {(showAllRequests ? requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : requests
                       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                       .slice(0, 6)
@@ -237,39 +261,41 @@ const OrganisationPage = () => {
                           </span>
                         </td>
                         <td>
-                          {request.status === 'pending' && (
-                            <>
-                              <button 
-                                className="btn btn-sm btn-success me-2" 
-                                onClick={async () => {
-                                  try {
-                                    const res = await API.post(`/requests/${request._id}/approve`);
-                                    if (res?.data?.success) {
-                                      alert('Request approved successfully!');
-                                      getOrg(); // Refresh data
+                          <div className="d-flex flex-column flex-sm-row gap-1">
+                            {request.status === 'pending' && (
+                              <>
+                                <button 
+                                  className="btn btn-sm btn-success" 
+                                  onClick={async () => {
+                                    try {
+                                      const res = await API.post(`/requests/${request._id}/approve`);
+                                      if (res?.data?.success) {
+                                        alert('Request approved successfully!');
+                                        getOrg(); // Refresh data
+                                      }
+                                    } catch (e) {
+                                      const errorMessage = e?.response?.data?.message || 'Failed to approve request';
+                                      alert(errorMessage);
                                     }
-                                  } catch (e) {
-                                    const errorMessage = e?.response?.data?.message || 'Failed to approve request';
-                                    alert(errorMessage);
-                                  }
-                                }}
-                              >
-                                Approve
-                              </button>
-                              <button 
-                                className="btn btn-sm btn-danger" 
-                                onClick={() => setRejectModal({ open: true, request })}
-                              >
-                                Reject
-                              </button>
-                            </>
-                          )}
-                          {request.status === 'approved' && (
-                            <span className="text-success">✓ Approved</span>
-                          )}
-                          {request.status === 'rejected' && (
-                            <span className="text-danger">✗ Rejected</span>
-                          )}
+                                  }}
+                                >
+                                  Approve
+                                </button>
+                                <button 
+                                  className="btn btn-sm btn-danger" 
+                                  onClick={() => setRejectModal({ open: true, request })}
+                                >
+                                  Reject
+                                </button>
+                              </>
+                            )}
+                            {request.status === 'approved' && (
+                              <span className="text-success">✓ Approved</span>
+                            )}
+                            {request.status === 'rejected' && (
+                              <span className="text-danger">✗ Rejected</span>
+                            )}
+                          </div>
                           {request.reason && (
                             <div className="mt-1">
                               <small className="text-muted">Reason: {request.reason}</small>
@@ -278,8 +304,9 @@ const OrganisationPage = () => {
                         </td>
                       </tr>
                     ))}
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           )}

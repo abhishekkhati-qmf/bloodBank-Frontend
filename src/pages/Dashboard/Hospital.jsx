@@ -79,23 +79,60 @@ const Hospital = () => {
     return (
       <Layout>
           {temp ? (
-          <div className="d-flex justify-content-center align-items-center"><Spinner size={80} /></div>
+          <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+            <Spinner size={80} />
+          </div>
         ) : (
-          <div className="container mt-4">
+          <div className="container-fluid mt-3 p-responsive">
             {isHospital ? (
               <>
-                <div className="mb-3">
-                  <h4 className="m-0">Welcome {user?.hospitalName || 'Hospital'}</h4>
-                  <div className="text-muted">{user?.address || '-'} · {user?.phone || user?.email || '-'}</div>
+                <div className="mb-4">
+                  <h4 className="m-0 text-responsive">Welcome {user?.hospitalName || 'Hospital'}</h4>
+                  <div className="text-muted text-responsive">{user?.address || '-'} · {user?.phone || user?.email || '-'}</div>
                 </div>
                 <div className="row g-3 mb-4">
-                  <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Total Blood Requests</div><div className="fs-4 fw-bold">{stats?.totalRequested || 0} ml</div></div></div></div>
-                  <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Total Requests Fulfilled</div><div className="fs-4 fw-bold">{stats?.fulfilledCount || 0}</div></div></div></div>
-                  <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Last Request Date</div><div className="fs-6 fw-bold">{stats?.lastRequest ? moment(stats.lastRequest).format('DD/MM/YYYY hh:mm A') : '-'}</div></div></div></div>
-                  <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Pending Requests</div><div className="fs-4 fw-bold">{stats?.pending || 0}</div></div></div></div>
+                  <div className="col-6 col-md-3">
+                    <div className="card h-100 stats-card">
+                      <div className="card-body text-center">
+                        <div className="text-muted small">Total Blood Requests</div>
+                        <div className="stats-number">{stats?.totalRequested || 0} ml</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <div className="card h-100 stats-card">
+                      <div className="card-body text-center">
+                        <div className="text-muted small">Requests Fulfilled</div>
+                        <div className="stats-number">{stats?.fulfilledCount || 0}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <div className="card h-100 stats-card">
+                      <div className="card-body text-center">
+                        <div className="text-muted small">Last Request</div>
+                        <div className="stats-number small">{stats?.lastRequest ? moment(stats.lastRequest).format('DD/MM/YY') : '-'}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <div className="card h-100 stats-card">
+                      <div className="card-body text-center">
+                        <div className="text-muted small">Pending</div>
+                        <div className="stats-number">{stats?.pending || 0}</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="row g-3 mb-4">
-                  <div className="col-md-3"><div className="card h-100"><div className="card-body"><div className="text-muted">Total Units Received</div><div className="fs-4 fw-bold">{stats?.totalReceived || 0} ml</div></div></div></div>
+                  <div className="col-12 col-md-3">
+                    <div className="card h-100 stats-card">
+                      <div className="card-body text-center">
+                        <div className="text-muted small">Total Units Received</div>
+                        <div className="stats-number">{stats?.totalReceived || 0} ml</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Blood Stock by Blood Group */}
@@ -132,18 +169,21 @@ const Hospital = () => {
                     <small className="text-muted">Last updated: {moment(lastRefreshedAt).format('DD/MM/YYYY hh:mm A')}</small>
                   </div>
                   {requests.length === 0 ? (
-                    <div className="alert alert-info">No requests sent yet</div>
+                    <div className="alert alert-info text-center">
+                      <i className="fas fa-info-circle me-2"></i>
+                      No requests sent yet
+                    </div>
                   ) : (
                     <div className="table-responsive">
-                      <table className="table table-sm">
-                        <thead>
-                          <tr className="table-active">
-                            <th>Organisation</th>
-                            <th>Blood Group</th>
-                            <th>Quantity</th>
-                            <th>Request Date</th>
-                            <th>Status</th>
-                            <th>Response Time</th>
+                      <table className="table table-hover">
+                        <thead className="table-dark">
+                          <tr>
+                            <th className="text-nowrap">Organisation</th>
+                            <th className="text-nowrap">Blood Group</th>
+                            <th className="text-nowrap">Quantity</th>
+                            <th className="text-nowrap">Request Date</th>
+                            <th className="text-nowrap">Status</th>
+                            <th className="text-nowrap">Response Time</th>
                           </tr>
                         </thead>
                         <tbody>
