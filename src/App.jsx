@@ -3,6 +3,7 @@ import {Routes, Route, useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser } from './redux/features/auth/authActions';
+import API_CONFIG from './config/api.js';
 import HomePage from './pages/HomePage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -52,7 +53,7 @@ function App() {
         try {
           const token = localStorage.getItem('token');
           if (token) {
-            const response = await fetch(`${import.meta.env.VITE_BASEURL}/auth/current-user`, {
+            const response = await fetch(`${import.meta.env.VITE_BASEURL || API_CONFIG.BASE_URL}/auth/current-user`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

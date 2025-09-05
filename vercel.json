@@ -1,6 +1,9 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "env": {
+    "VITE_BASEURL": "https://bloodbank-backend-yt9o.onrender.com"
+  },
   "rewrites": [
     {
       "source": "/(.*)",

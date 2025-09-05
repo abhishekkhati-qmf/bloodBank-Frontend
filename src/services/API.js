@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import API_CONFIG from "../config/api.js";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_BASEURL,
+  baseURL: import.meta.env.VITE_BASEURL || API_CONFIG.BASE_URL,
 });
 
 API.interceptors.request.use((req) => {
