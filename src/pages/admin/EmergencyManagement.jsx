@@ -22,8 +22,8 @@ const EmergencyManagement = () => {
     try {
       setTemp(true);
       const [requestsRes, statsRes] = await Promise.all([
-        API.get('/emergency/all'),
-        API.get('/emergency/stats')
+        API.get('/api/emergency/all'),
+        API.get('/api/emergency/stats')
       ]);
       
       if (requestsRes?.data?.success) {

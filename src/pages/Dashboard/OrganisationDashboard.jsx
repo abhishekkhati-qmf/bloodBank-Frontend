@@ -18,7 +18,7 @@ const OrganisationDashboard = () => {
   const getDonationRequests = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get('/donation-requests/organisation');
+      const { data } = await API.get('/api/donation-requests/organisation');
       
       if (data?.success) {
         setDonationRequests(data.donationRequests || []);

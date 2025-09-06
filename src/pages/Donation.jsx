@@ -31,7 +31,7 @@ const Donation = () => {
   const getOrganisations = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get('/donation-requests/organisations');
+      const { data } = await API.get('/api/donation-requests/organisations');
       
       if (data?.success) {
         setOrganisations(data.organisations || []);
@@ -47,7 +47,7 @@ const Donation = () => {
   // Handle donation request
   const handleDonationRequest = async (organisationId) => {
     try {
-      const { data } = await API.post('/donation-requests/create', {
+      const { data } = await API.post('/api/donation-requests/create', {
         organisationId,
         bloodGroup: user.bloodGroup
       });

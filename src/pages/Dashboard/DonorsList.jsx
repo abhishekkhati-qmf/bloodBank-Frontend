@@ -16,7 +16,7 @@ const DonorsList = () => {
   const getDonors = async () => {
     try {
       setLoading(true);
-      const { data } = await API.get('/inventory/get-donors');
+      const { data } = await API.get('/api/inventory/get-donors');
       
       if (data?.success) {
         setDonors(data.donors || []);

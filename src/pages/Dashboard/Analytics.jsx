@@ -12,7 +12,7 @@ const Analytics = () => {
 
   const getBloodRecords= async()=>{
     try {
-      const {data} = await API.get('/inventory/get-recent-inventory');
+      const {data} = await API.get('/api/inventory/get-recent-inventory');
       if(data?.success){
         setInventoryData(data?.inventory);
       }

@@ -34,7 +34,7 @@ const Modal = () => {
     const fetchOrgs = async () => {
       try {
         if (isDonor) {
-          const { data } = await API.get('/inventory/all-organisations');
+          const { data } = await API.get('/api/inventory/all-organisations');
           if (data?.success) {
             setOrgs(data.organisations || []);
           }

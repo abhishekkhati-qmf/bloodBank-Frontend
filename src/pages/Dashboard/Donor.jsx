@@ -41,7 +41,7 @@ const Donor = () => {
 
       // Get recent organisations the donor has donated to
       try {
-        const recentOrgsRes = await API.get('/donation-requests/recent-organisations');
+        const recentOrgsRes = await API.get('/api/donation-requests/recent-organisations');
         if (recentOrgsRes?.data?.success) {
           setRecentOrganisations(recentOrgsRes.data.recentOrganisations || []);
         }
@@ -56,7 +56,7 @@ const Donor = () => {
 
       // Get donation requests for donors (limit to last 6)
       try {
-        const requestsRes = await API.get('/donation-requests/donor');
+        const requestsRes = await API.get('/api/donation-requests/donor');
         if (requestsRes?.data?.success) {
           const allRequests = requestsRes.data.donationRequests || [];
           // Limit to last 6 requests
@@ -86,7 +86,7 @@ const Donor = () => {
       const fetchDonors = async () => {
         try {
           setTemp(true);
-          const donationRes = await API.post('/inventory/get-inventory-hospital', { 
+          const donationRes = await API.post('/api/inventory/get-inventory-hospital', { 
             filters: { inventoryType: 'in' } 
           });
           if (donationRes?.data?.success) {

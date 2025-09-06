@@ -7,7 +7,7 @@ export const userLogin = createAsyncThunk(
     'auth/login',
     async ({role, email, password}, {rejectWithValue}) => {
         try {
-            const {data} = await API.post('/auth/login',{role,email,password})
+            const {data} = await API.post('/api/auth/login',{role,email,password})
             if(data.success){
                 localStorage.setItem('token', data.token);
                 toast.success(data.message)
@@ -40,7 +40,7 @@ export const userRegister = createAsyncThunk(
         weight,
         bloodGroup}, {rejectWithValue}) => {
             try{
-                const {data}=await API.post('/auth/register',{
+                const {data}=await API.post('/api/auth/register',{
                     name,
                     role,
                     email,
@@ -81,7 +81,7 @@ export const getCurrentUser = createAsyncThunk(
     'auth/getCurrentUser',
     async(_, {rejectWithValue})=>{
         try{
-            const res = await API.get('/auth/current-user');
+            const res = await API.get('/api/auth/current-user');
             if(res?.data?.success){
                 return res?.data;
             }else{

@@ -23,15 +23,15 @@ const OrganisationPage = () => {
   const getOrg = async () => {
     try {
       if(user?.role === 'donor'){
-        const { data } = await API.get("/inventory/all-organisations");
+        const { data } = await API.get("/api/inventory/all-organisations");
         if (data?.success) setData(data?.organisations);
       }
       if (user?.role === "hospital") {
         const [orgRes, invRes, reqRes, allOrgsRes] = await Promise.all([
-          API.get("/inventory/get-organisation-for-hospital"),
-          API.post('/inventory/get-inventory-hospital', { filters: { inventoryType: 'out', hospital: user?._id } }),
-          API.get('/requests/hospital'),
-          API.get('/inventory/all-organisations'),
+          API.get("/api/inventory/get-organisation-for-hospital"),
+          API.post('/api/inventory/get-inventory-hospital', { filters: { inventoryType: 'out', hospital: user?._id } }),
+          API.get('/api/requests/hospital'),
+          API.get('/api/inventory/all-organisations'),
         ]);
         if (orgRes?.data?.success) setData(orgRes.data.organisations || []);
         if (invRes?.data?.success) setReceived(invRes.data.inventory || []);
@@ -55,7 +55,7 @@ const OrganisationPage = () => {
           website: user?.website,
         }]);
         // fetch incoming requests for organisation
-        const reqRes = await API.get('/requests/organisation');
+        const reqRes = await API.get('/api/requests/organisation');
         if (reqRes?.data?.success) setRequests(reqRes.data.requests || []);
       }
     } catch (error) { 
@@ -133,7 +133,7 @@ const OrganisationPage = () => {
                 <input className="form-control w-50" placeholder="Search by name/address" value={search} onChange={(e)=>setSearch(e.target.value)} />
                 <button className="btn btn-outline-primary ms-2" onClick={async()=>{
                   try{
-                    const res = await API.get('/inventory/all-organisations');
+                    const res = await API.get('/api/inventory/all-organisations');
                     if (res?.data?.success) {
                       setBrowseOrgs({ 
                         open: true, 
@@ -352,7 +352,7 @@ const OrganisationPage = () => {
                   }
                   try{
                     const orgId = browse.list[0]?._id;
-                    const res = await API.post('/requests', { organisationId: orgId, bloodGroup, quantity });
+                    const res = await API.post('/api/requests', { organisationId: orgId, bloodGroup, quantity });
                     if (res?.data?.success) { 
                       if (res?.data?.autoRejected) {
                         alert('Request rejected: No stock available.');

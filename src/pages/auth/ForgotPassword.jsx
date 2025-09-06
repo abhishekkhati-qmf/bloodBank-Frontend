@@ -29,7 +29,7 @@ const ForgotPassword = () => {
       setLoading(true);
       setError('');
 
-      const { data } = await API.post('/auth/forgot-password', {
+      const { data } = await API.post('/api/auth/forgot-password', {
         email
       });
 

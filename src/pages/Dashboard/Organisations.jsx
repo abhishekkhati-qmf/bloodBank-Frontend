@@ -52,7 +52,7 @@ const Organisations = () => {
   const getDonationRequests = async () => {
     if (user?.role === 'donor') {
       try {
-        const { data } = await API.get('/donation-requests/donor');
+        const { data } = await API.get('/api/donation-requests/donor');
         if (data?.success) {
           const allRequests = data.donationRequests || [];
           // Limit to last 6 requests
@@ -64,7 +64,7 @@ const Organisations = () => {
       }
     } else if (user?.role === 'hospital') {
       try {
-        const { data } = await API.get('/requests/hospital');
+        const { data } = await API.get('/api/requests/hospital');
         if (data?.success) {
           const allRequests = data.requests || [];
           // Limit to last 6 requests
@@ -86,7 +86,7 @@ const Organisations = () => {
   const handleRequest = async (organisationId) => {
     if (user?.role === 'donor') {
       try {
-        const { data } = await API.post('/donation-requests/create', {
+        const { data } = await API.post('/api/donation-requests/create', {
           organisationId,
           bloodGroup: user.bloodGroup
         });
@@ -118,7 +118,7 @@ const Organisations = () => {
     }
 
     try {
-      const { data } = await API.post('/requests', {
+      const { data } = await API.post('/api/requests', {
         organisationId: bloodRequestForm.organisationId,
         bloodGroup: bloodRequestForm.bloodGroup,
         quantity: parseInt(bloodRequestForm.quantity)

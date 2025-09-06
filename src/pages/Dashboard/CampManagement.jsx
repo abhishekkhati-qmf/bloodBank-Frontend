@@ -34,7 +34,7 @@ const CampManagement = () => {
   const getCamps = async () => {
     try {
       setTemp(true);
-      const { data } = await API.get('/camps/organisation');
+      const { data } = await API.get('/api/camps/organisation');
       if (data?.success) {
         setCamps(data.camps || []);
       }
@@ -124,7 +124,7 @@ const CampManagement = () => {
         }
       } else {
         // Create new camp
-        const { data } = await API.post('/camps/create', formData);
+        const { data } = await API.post('/api/camps/create', formData);
         if (data?.success) {
           alert('Camp created successfully!');
           getCamps();

@@ -37,7 +37,7 @@ const HomePage = () => {
 
   const getBloodRecords = async () => {
     try {
-      const { data } = await API.get('/inventory/get-inventory');
+      const { data } = await API.get('/api/inventory/get-inventory');
       if (data?.success) {
         setData(data?.inventory);
       }
@@ -48,7 +48,7 @@ const HomePage = () => {
 
   const getEmergencyRequests = async () => {
     try {
-      const { data } = await API.get('/emergency/donor');
+      const { data } = await API.get('/api/emergency/donor');
       if (data?.success) {
         setEmergencyRequests(data?.emergencyRequests);
       }

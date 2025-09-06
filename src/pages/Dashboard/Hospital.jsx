@@ -36,10 +36,10 @@ const Hospital = () => {
     const loadHospitalDashboard = async () => {
       try {
         const [reqRes, invRes, orgRes, allOrgsRes] = await Promise.all([
-          API.get('/requests/hospital'),
-          API.post('/inventory/get-inventory-hospital', { filters: { inventoryType: 'out', hospital: user?._id } }),
-          API.get('/inventory/get-organisation-for-hospital'),
-          API.get('/inventory/all-organisations'),
+          API.get('/api/requests/hospital'),
+          API.post('/api/inventory/get-inventory-hospital', { filters: { inventoryType: 'out', hospital: user?._id } }),
+          API.get('/api/inventory/get-organisation-for-hospital'),
+          API.get('/api/inventory/all-organisations'),
         ]);
         if (reqRes?.data?.success) setRequests(reqRes.data.requests || []);
         if (invRes?.data?.success) setReceived(invRes.data.inventory || []);
@@ -246,7 +246,7 @@ const Hospital = () => {
               <h4 className="m-0">Hospitals</h4>
               <button className="btn btn-outline-primary btn-sm" onClick={async()=>{
                 try{
-                  const { data } = await API.get('/inventory/all-hospitals');
+                  const { data } = await API.get('/api/inventory/all-hospitals');
                   if (data?.success) setBrowse({ open: true, list: data.hospitals || [], search: '' });
                 }catch(e){ console.log(e); }
               }}>Browse All Hospitals</button>
@@ -338,7 +338,7 @@ const Hospital = () => {
                           <td>
                             <button className="btn btn-sm btn-primary" onClick={async()=>{
                               try{
-                                const res = await API.post('/inventory/connect-hospital', { hospitalId: h._id });
+                                const res = await API.post('/api/inventory/connect-hospital', { hospitalId: h._id });
                                 if (res?.data?.success) {
                                   setBrowse({...browse, open:false});
                                   setTemp(true); 
@@ -428,7 +428,7 @@ const Hospital = () => {
                     if (!bloodGroup || !quantity) return alert('Please select group and quantity');
                     try{
                       const orgId = browse.list[0]?._id;
-                      const res = await API.post('/requests', { organisationId: orgId, bloodGroup, quantity });
+                      const res = await API.post('/api/requests', { organisationId: orgId, bloodGroup, quantity });
                       if (res?.data?.success) { 
                         if (res?.data?.autoRejected) {
                           alert('Request rejected: No stock available.');

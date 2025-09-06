@@ -18,7 +18,7 @@ const CampApproval = () => {
   const getPendingCamps = async () => {
     try {
       setTemp(true);
-      const { data } = await API.get('/camps/pending');
+      const { data } = await API.get('/api/camps/pending');
       if (data?.success) {
         setCamps(data.camps || []);
       }
@@ -32,7 +32,7 @@ const CampApproval = () => {
   // Fetch camp statistics
   const getCampStats = async () => {
     try {
-      const { data } = await API.get('/camps/stats');
+      const { data } = await API.get('/api/camps/stats');
       if (data?.success) {
         setStats(data.stats || {});
       }

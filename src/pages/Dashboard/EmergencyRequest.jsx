@@ -27,7 +27,7 @@ const EmergencyRequest = () => {
   const getEmergencyRequests = async () => {
     try {
       setTemp(true);
-      const { data } = await API.get('/emergency/organisation');
+      const { data } = await API.get('/api/emergency/organisation');
       if (data?.success) {
         setEmergencyRequests(data.emergencyRequests || []);
       }
@@ -73,7 +73,7 @@ const EmergencyRequest = () => {
     e.preventDefault();
     
     try {
-      const { data } = await API.post('/emergency/create', formData);
+      const { data } = await API.post('/api/emergency/create', formData);
       if (data?.success) {
         alert('Emergency request created and broadcasted successfully!');
         getEmergencyRequests();
