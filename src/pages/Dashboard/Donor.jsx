@@ -13,6 +13,8 @@ const Donor = () => {
   const [donationHistory, setDonationHistory] = useState([]);
   const [recentOrganisations, setRecentOrganisations] = useState([]);
   const [donationRequests, setDonationRequests] = useState([]);
+  const [upcomingCamps, setUpcomingCamps] = useState([]);
+  const [emergencyRequests, setEmergencyRequests] = useState([]);
 
   const [temp, setTemp] = useState(false);
 
@@ -67,6 +69,47 @@ const Donor = () => {
       } catch (error) {
         console.log('Error fetching donation requests:', error);
         setDonationRequests([]);
+      }
+
+      // Get upcoming camps for donors
+      try {
+        const campsRes = await API.get('/api/camps/published');
+        if (campsRes?.data?.success) {
+          const allCamps = campsRes.data.camps || [];
+          // Filter camps that need the donor's blood group and are upcoming
+          const upcoming = allCamps.filter(camp => {
+            const campDate = new Date(camp.date);
+            const today = new Date();
+            const needsBloodGroup = camp.bloodGroups && camp.bloodGroups.includes(user?.bloodGroup);
+            return campDate >= today && needsBloodGroup;
+          });
+          setUpcomingCamps(upcoming.slice(0, 3)); // Show max 3 upcoming camps
+        } else {
+          setUpcomingCamps([]);
+        }
+      } catch (error) {
+        console.log('Error fetching upcoming camps:', error);
+        setUpcomingCamps([]);
+      }
+
+      // Get emergency requests for donors
+      try {
+        const emergencyRes = await API.get('/api/emergency/donor');
+        if (emergencyRes?.data?.success) {
+          const allEmergency = emergencyRes.data.emergencyRequests || [];
+          // Filter emergency requests that need the donor's blood group and are active
+          const activeEmergency = allEmergency.filter(emergency => {
+            const needsBloodGroup = emergency.bloodGroup === user?.bloodGroup;
+            const isActive = emergency.status === 'active' || emergency.status === 'pending';
+            return needsBloodGroup && isActive;
+          });
+          setEmergencyRequests(activeEmergency.slice(0, 3)); // Show max 3 emergency requests
+        } else {
+          setEmergencyRequests([]);
+        }
+      } catch (error) {
+        console.log('Error fetching emergency requests:', error);
+        setEmergencyRequests([]);
       }
 
 
@@ -408,6 +451,86 @@ const Donor = () => {
               </div>
             </div>
           </div>
+
+          {/* Upcoming Blood Donation Camps */}
+          {upcomingCamps.length > 0 && (
+            <div className="row mb-4">
+              <div className="col-12">
+                <div className="card">
+                  <div className="card-header">
+                    <h5 className="mb-0">🩸 Upcoming Blood Donation Camps</h5>
+                    <small className="text-muted">Camps that need your blood group ({user?.bloodGroup})</small>
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      {upcomingCamps.map(camp => (
+                        <div key={camp._id} className="col-md-4 mb-3">
+                          <div className="card border-danger">
+                            <div className="card-body">
+                              <h6 className="card-title text-danger">{camp.name}</h6>
+                              <p className="card-text">
+                                <strong>Date:</strong> {moment(camp.date).format('DD/MM/YYYY')}<br/>
+                                <strong>Time:</strong> {camp.startTime} - {camp.endTime}<br/>
+                                <strong>Location:</strong> {camp.location}, {camp.city}<br/>
+                                <strong>Contact:</strong> {camp.contactPhone}
+                              </p>
+                              <button 
+                                className="btn btn-sm btn-danger" 
+                                onClick={() => window.open(`tel:${camp.contactPhone}`)}
+                              >
+                                <i className="fa-solid fa-phone me-1"></i>
+                                Contact Now
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Emergency Blood Requests */}
+          {emergencyRequests.length > 0 && (
+            <div className="row mb-4">
+              <div className="col-12">
+                <div className="card">
+                  <div className="card-header">
+                    <h5 className="mb-0">🚨 Emergency Blood Requests</h5>
+                    <small className="text-muted">Urgent requests for your blood group ({user?.bloodGroup})</small>
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      {emergencyRequests.map(emergency => (
+                        <div key={emergency._id} className="col-md-4 mb-3">
+                          <div className="card border-warning">
+                            <div className="card-body">
+                              <h6 className="card-title text-warning">{emergency.patientName || 'Emergency Request'}</h6>
+                              <p className="card-text">
+                                <strong>Blood Group:</strong> {emergency.bloodGroup}<br/>
+                                <strong>Quantity:</strong> {emergency.quantity} ml<br/>
+                                <strong>Hospital:</strong> {emergency.hospitalName}<br/>
+                                <strong>Contact:</strong> {emergency.contactPhone}
+                              </p>
+                              <button 
+                                className="btn btn-sm btn-warning" 
+                                onClick={() => window.open(`tel:${emergency.contactPhone}`)}
+                              >
+                                <i className="fa-solid fa-phone me-1"></i>
+                                Call Now
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Recent Organisations You've Donated To */}
           {recentOrganisations.length > 0 && (
