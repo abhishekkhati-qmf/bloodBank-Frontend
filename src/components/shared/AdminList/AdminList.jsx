@@ -19,7 +19,7 @@ const AdminList = ({
   const fetchData = async () => {
     try {
       setTemp(true);
-      const { data } = await API.get(apiEndpoint);
+      const { data } = await API.get(`/api${apiEndpoint}`);
       if (data?.success) {
         setData(data[dataKey] || []);
       }
@@ -42,7 +42,7 @@ const AdminList = ({
       );
       if (!answer) return;
       
-      const { data } = await API.delete(`/admin/delete-donor/${id}`);
+      const { data } = await API.delete(`/api/admin/delete-donor/${id}`);
       toast.success(data?.message);
       window.location.reload();
     } catch (error) {
@@ -58,7 +58,7 @@ const AdminList = ({
       );
       if (!answer) return;
       
-      const { data } = await API.put(`/admin/block-unblock/${id}`, {
+      const { data } = await API.put(`/api/admin/block-unblock/${id}`, {
         action: action
       });
       

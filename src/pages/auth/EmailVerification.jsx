@@ -21,7 +21,7 @@ const EmailVerification = () => {
           return;
         }
 
-        const { data } = await API.get(`/auth/verify-email/${token}`);
+        const { data } = await API.get(`/api/auth/verify-email/${token}`);
         
         if (data?.success) {
           setVerificationStatus('success');

@@ -53,7 +53,7 @@ function App() {
         try {
           const token = localStorage.getItem('token');
           if (token) {
-            const response = await fetch(`${import.meta.env.VITE_BASEURL || API_CONFIG.BASE_URL}/auth/current-user`, {
+            const response = await fetch(`${import.meta.env.VITE_BASEURL || API_CONFIG.BASE_URL}/api/auth/current-user`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

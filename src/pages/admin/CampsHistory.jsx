@@ -18,7 +18,7 @@ const CampsHistory = () => {
   const getCamps = async (page = 1, status = 'all') => {
     try {
       setLoading(true);
-      const { data } = await API.get(`/camps/admin/all?page=${page}&status=${status}`);
+      const { data } = await API.get(`/api/camps/admin/all?page=${page}&status=${status}`);
       
       if (data?.success) {
         setCamps(data.camps);

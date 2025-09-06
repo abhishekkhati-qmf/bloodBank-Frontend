@@ -118,7 +118,7 @@ const Modal = () => {
       if (!isDonor && inventoryType === 'out' && selectedHospitalId) {
         payload.hospitalId = selectedHospitalId;
       }
-      const { data } = await API.post("/inventory/create-inventory", payload);
+      const { data } = await API.post("/api/inventory/create-inventory", payload);
       if (data?.success) {
         alert("New Record Created");
         window.location.reload();

@@ -164,7 +164,7 @@ const HomePage = () => {
                 <label className="form-check-label me-2">Show only low stock</label>
                 <input type="checkbox" className="form-check-input" onChange={async (e)=>{
                   try {
-                    const { data } = await API.get(`/inventory/stock-summary?lowOnly=${e.target.checked}`);
+                    const { data } = await API.get(`/api/inventory/stock-summary?lowOnly=${e.target.checked}`);
                     if (data?.success) {
                       setData([]);
                       setInventoryData([]);

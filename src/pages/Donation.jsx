@@ -16,7 +16,7 @@ const Donation = () => {
   // Get donation requests for the donor
   const getDonationRequests = async () => {
     try {
-      const { data } = await API.get("/donation-requests/donor");
+      const { data } = await API.get("/api/donation-requests/donor");
       if (data?.success) {
         setDonationRequests(data?.donationRequests || []);
       }

@@ -22,7 +22,7 @@ const Donor = () => {
       setTemp(true);
       
       // Get donor's donation history
-      const historyRes = await API.post("/inventory/get-inventory-hospital", {
+      const historyRes = await API.post("/api/inventory/get-inventory-hospital", {
         filters: {
           inventoryType: "in",
           donor: user?._id,
@@ -34,7 +34,7 @@ const Donor = () => {
       }
 
       // Get all organisations for blood requests
-      const orgsRes = await API.get("/inventory/all-organisations");
+      const orgsRes = await API.get("/api/inventory/all-organisations");
       if (orgsRes?.data?.success) {
         setOrganisations(orgsRes.data.organisations || []);
       }

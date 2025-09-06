@@ -27,7 +27,7 @@ const Analytics = () => {
 
   const getBloodGroupData = async () => {
     try {
-      const { data } = await API.get("/analytics/bloodGroups-data");
+      const { data } = await API.get("/api/analytics/bloodGroups-data");
       if (data?.success) {
         setData(data?.bloodGroupData);
         console.log(data)

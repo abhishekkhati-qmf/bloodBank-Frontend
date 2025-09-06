@@ -92,7 +92,7 @@ const EmergencyRequest = () => {
     }
 
     try {
-      const { data } = await API.delete(`/emergency/${requestId}`);
+      const { data } = await API.delete(`/api/emergency/${requestId}`);
       if (data?.success) {
         alert('Emergency request deleted successfully!');
         getEmergencyRequests();
@@ -110,7 +110,7 @@ const EmergencyRequest = () => {
     }
 
     try {
-      const { data } = await API.put(`/emergency/${requestId}/fulfill`, {
+      const { data } = await API.put(`/api/emergency/${requestId}/fulfill`, {
         notes: 'Emergency request fulfilled by organisation'
       });
       if (data?.success) {

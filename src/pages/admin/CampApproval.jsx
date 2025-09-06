@@ -51,7 +51,7 @@ const CampApproval = () => {
   // Handle camp approval/rejection
   const handleStatusUpdate = async (campId, status) => {
     try {
-      const { data } = await API.put(`/camps/${campId}/status`, {
+      const { data } = await API.put(`/api/camps/${campId}/status`, {
         status,
         adminNotes: adminNotes.trim() || undefined
       });

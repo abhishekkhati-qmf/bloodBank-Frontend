@@ -116,7 +116,7 @@ const CampManagement = () => {
     try {
       if (editingCamp) {
         // Update existing camp
-        const { data } = await API.put(`/camps/${editingCamp._id}`, formData);
+        const { data } = await API.put(`/api/camps/${editingCamp._id}`, formData);
         if (data?.success) {
           alert('Camp updated successfully!');
           getCamps();
@@ -142,7 +142,7 @@ const CampManagement = () => {
     if (!window.confirm('Are you sure you want to delete this camp?')) return;
     
     try {
-      const { data } = await API.delete(`/camps/${campId}`);
+      const { data } = await API.delete(`/api/camps/${campId}`);
       if (data?.success) {
         alert('Camp deleted successfully!');
         getCamps();
@@ -158,7 +158,7 @@ const CampManagement = () => {
     if (!window.confirm('Are you sure you want to mark this camp as completed? This action cannot be undone.')) return;
     
     try {
-      const { data } = await API.put(`/camps/${campId}`, {
+      const { data } = await API.put(`/api/camps/${campId}`, {
         status: 'completed'
       });
       

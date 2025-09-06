@@ -18,7 +18,7 @@ const Hospital = () => {
 
     const loadOrgPerspective = async () => {
       try {
-        const { data } = await API.get("/inventory/hospital-stats");
+        const { data } = await API.get("/api/inventory/hospital-stats");
         if (data?.success) setData(data?.rows);
       } catch (error) {
         console.log(error);
@@ -214,7 +214,7 @@ const Hospital = () => {
                                       className="btn btn-sm btn-success" 
                                       onClick={async () => {
                                         try {
-                                          const res = await API.post(`/requests/${request._id}/fulfilled`);
+                                          const res = await API.post(`/api/requests/${request._id}/fulfilled`);
                                           if (res?.data?.success) {
                                             alert('Request marked as fulfilled!');
                                             loadHospitalDashboard(); // Refresh data
@@ -291,7 +291,7 @@ const Hospital = () => {
                     </button>
                     <button className="btn btn-sm btn-outline-secondary" onClick={async()=>{
                       try{
-                        const { data } = await API.get(`/inventory/hospital-donation-history?hospitalId=${record.hospitalId}`);
+                        const { data } = await API.get(`/api/inventory/hospital-donation-history?hospitalId=${record.hospitalId}`);
                         if (data?.success) {
                           window.hospitalHistory = data.records;
                           setBrowse({ open: true, list: [], search: 'HISTORY' });

@@ -38,7 +38,7 @@ const OrganisationDashboard = () => {
   // Handle donation request response
   const handleRequestResponse = async (requestId, status) => {
     try {
-      const { data } = await API.put(`/donation-requests/${requestId}/status`, {
+      const { data } = await API.put(`/api/donation-requests/${requestId}/status`, {
         status,
         responseNotes: responseNotes || ''
       });
@@ -59,7 +59,7 @@ const OrganisationDashboard = () => {
   // Handle direct status updates for approve/reject
   const handleDirectStatusUpdate = async (requestId, status) => {
     try {
-      const { data } = await API.put(`/donation-requests/${requestId}/status`, {
+      const { data } = await API.put(`/api/donation-requests/${requestId}/status`, {
         status,
         responseNotes: ''
       });

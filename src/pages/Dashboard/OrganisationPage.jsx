@@ -268,7 +268,7 @@ const OrganisationPage = () => {
                                   className="btn btn-sm btn-success" 
                                   onClick={async () => {
                                     try {
-                                      const res = await API.post(`/requests/${request._id}/approve`);
+                                      const res = await API.post(`/api/requests/${request._id}/approve`);
                                       if (res?.data?.success) {
                                         alert('Request approved successfully!');
                                         getOrg(); // Refresh data
@@ -409,7 +409,7 @@ const OrganisationPage = () => {
                 <button className="btn btn-danger" onClick={async()=>{
                   const reason = document.getElementById('rejectReason').value;
                   try {
-                    const res = await API.post(`/requests/${rejectModal.request._id}/reject`, { reason });
+                    const res = await API.post(`/api/requests/${rejectModal.request._id}/reject`, { reason });
                     if (res?.data?.success) {
                       alert('Request rejected');
                       setRejectModal({ open: false, request: null });

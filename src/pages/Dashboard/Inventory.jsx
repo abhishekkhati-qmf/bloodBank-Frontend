@@ -12,7 +12,7 @@ const Inventory = () => {
   const load = async (low) => {
     try {
       setLoading(true);
-      const { data } = await API.get(`/inventory/stock-summary?lowOnly=${low ? 'true' : 'false'}`);
+      const { data } = await API.get(`/api/inventory/stock-summary?lowOnly=${low ? 'true' : 'false'}`);
       if (data?.success) setRows(data.rows || []);
     } catch (e) { console.log(e); }
     finally { setLoading(false); }

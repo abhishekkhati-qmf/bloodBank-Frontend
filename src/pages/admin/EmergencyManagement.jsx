@@ -56,7 +56,7 @@ const EmergencyManagement = () => {
   // Submit action
   const submitAction = async () => {
     try {
-      const { data } = await API.put(`/emergency/${selectedRequest._id}/status`, actionData);
+      const { data } = await API.put(`/api/emergency/${selectedRequest._id}/status`, actionData);
       if (data?.success) {
         alert(`Emergency request ${actionData.status} successfully`);
         setShowActionModal(false);
